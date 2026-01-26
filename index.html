@@ -5,671 +5,792 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>E-Cell | The Future of Innovation</title>
-
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <style>
-        :root {
-            --red-glow: rgba(244, 63, 94, .6);
-            --blue-glow: rgba(59, 130, 246, .6);
-            --purple-glow: rgba(168, 85, 247, .5);
-        }
-
         * {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            box-sizing: border-box
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0a0118;
-            color: white;
-            overflow-x: hidden;
-            position: relative;
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden
         }
 
-        /* Custom Background Layer */
-        .bg-layer {
+        .orbitron {
+            font-family: 'Orbitron', sans-serif
+        }
+
+        .bg-main {
             position: fixed;
             inset: 0;
             background: url("background.png") center/cover no-repeat;
-            z-index: 0;
+            z-index: 0
         }
 
-        /* Animated Gradient Overlay */
-        .gradient-overlay {
+        .overlay-gradient {
             position: fixed;
             inset: 0;
-            background:
-                radial-gradient(circle at 20% 30%, rgba(244, 63, 94, .15), transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(59, 130, 246, .15), transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(168, 85, 247, .1), transparent 60%);
-            animation: drift 20s ease-in-out infinite alternate;
-            z-index: 1;
+            background: radial-gradient(circle at 20% 20%, rgba(255, 0, 100, .3), transparent 40%), radial-gradient(circle at 80% 80%, rgba(0, 100, 255, .3), transparent 40%), radial-gradient(circle at 50% 50%, rgba(150, 0, 255, .2), transparent 50%);
+            animation: pulse 15s ease-in-out infinite;
+            z-index: 1
         }
 
-        @keyframes drift {
-            0% {
-                transform: translate(0, 0) scale(1);
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: .8
             }
 
             50% {
-                transform: translate(-30px, -30px) scale(1.05);
-            }
-
-            100% {
-                transform: translate(20px, 20px) scale(1);
+                opacity: 1
             }
         }
 
-        /* Particle Effect */
-        .particles {
+        .scan-lines {
             position: fixed;
             inset: 0;
+            background: repeating-linear-gradient(0deg, rgba(0, 255, 255, .03) 0, transparent 2px, transparent 4px);
             z-index: 2;
-            pointer-events: none;
+            pointer-events: none
+        }
+
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(0, 255, 255, .05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 255, .05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+            animation: gridMove 20s linear infinite
+        }
+
+        @keyframes gridMove {
+            0% {
+                transform: perspective(500px) rotateX(60deg) translateZ(0)
+            }
+
+            100% {
+                transform: perspective(500px) rotateX(60deg) translateZ(50px)
+            }
+        }
+
+        .content {
+            position: relative;
+            z-index: 10
+        }
+
+        .glass {
+            background: rgba(10, 10, 30, .6);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 2px solid rgba(0, 255, 255, .2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .1), 0 0 50px rgba(0, 255, 255, .1)
+        }
+
+        .glass-card {
+            background: rgba(20, 10, 40, .7);
+            backdrop-filter: blur(25px) saturate(200%);
+            border: 2px solid;
+            border-image: linear-gradient(135deg, #ff0080, #00ffff, #7700ff) 1;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, .9), inset 0 1px 0 rgba(255, 255, 255, .15), 0 0 80px rgba(255, 0, 128, .2);
+            transition: all .5s cubic-bezier(.175, .885, .32, 1.275)
+        }
+
+        .glass-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 80px rgba(255, 0, 128, .5), 0 0 100px rgba(0, 255, 255, .4);
+            border-image: linear-gradient(135deg, #00ffff, #ff0080, #00ffff) 1
+        }
+
+        .neon-text {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, .8), 0 0 20px rgba(0, 255, 255, .6), 0 0 40px rgba(255, 0, 128, .6), 0 0 80px rgba(255, 0, 128, .4);
+            animation: neonFlicker 3s infinite alternate
+        }
+
+        @keyframes neonFlicker {
+
+            0%,
+            100% {
+                text-shadow: 0 0 10px rgba(0, 255, 255, .8), 0 0 20px rgba(0, 255, 255, .6), 0 0 40px rgba(255, 0, 128, .6), 0 0 80px rgba(255, 0, 128, .4)
+            }
+
+            50% {
+                text-shadow: 0 0 15px rgba(0, 255, 255, 1), 0 0 30px rgba(0, 255, 255, .8), 0 0 60px rgba(255, 0, 128, .8), 0 0 120px rgba(255, 0, 128, .6)
+            }
+        }
+
+        .cyber-btn {
+            position: relative;
+            padding: 18px 40px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #ff0080, #7700ff);
+            border: none;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
+            cursor: pointer;
+            overflow: hidden
+        }
+
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .4), transparent);
+            transition: left .5s
+        }
+
+        .cyber-btn:hover::before {
+            left: 100%
+        }
+
+        .cyber-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 0, 128, .8), 0 0 60px rgba(119, 0, 255, .6)
+        }
+
+        .cyber-btn-outline {
+            background: transparent;
+            border: 3px solid #00ffff;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+            color: #00ffff;
+            transition: all .4s;
+            padding: 15px 35px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden
+        }
+
+        .cyber-btn-outline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, .3), transparent);
+            transition: left .5s
+        }
+
+        .cyber-btn-outline:hover::before {
+            left: 100%
+        }
+
+        .cyber-btn-outline:hover {
+            background: rgba(0, 255, 255, .1);
+            box-shadow: 0 0 30px rgba(0, 255, 255, .8), inset 0 0 30px rgba(0, 255, 255, .3);
+            transform: translateY(-3px)
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, .8);
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all .4s
+        }
+
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, #ff0080, #00ffff, #7700ff, #00ffff);
+            background-size: 300% 300%;
+            animation: gradientRotate 3s linear infinite;
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity .4s
+        }
+
+        .stat-box:hover::before {
+            opacity: 1
+        }
+
+        @keyframes gradientRotate {
+            0% {
+                background-position: 0 50%
+            }
+
+            50% {
+                background-position: 100% 50%
+            }
+
+            100% {
+                background-position: 0 50%
+            }
+        }
+
+        .stat-number {
+            font-size: 60px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff0080, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
         }
 
         .particle {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(255, 255, 255, .4);
+            width: 3px;
+            height: 3px;
+            background: #00ffff;
             border-radius: 50%;
-            animation: float linear infinite;
+            box-shadow: 0 0 10px #00ffff;
+            animation: particleFloat linear infinite
         }
 
-        @keyframes float {
+        @keyframes particleFloat {
             0% {
-                transform: translateY(100vh) translateX(0);
-                opacity: 0;
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0
             }
 
             10% {
-                opacity: 1;
+                opacity: 1
             }
 
             90% {
-                opacity: 1;
+                opacity: 1
             }
 
             100% {
-                transform: translateY(-100vh) translateX(50px);
-                opacity: 0;
+                transform: translateY(-100vh) translateX(100px) scale(1);
+                opacity: 0
             }
         }
 
-        /* Content Layer */
-        .content {
-            position: relative;
-            z-index: 10;
+        .scroll-indicator {
+            width: 30px;
+            height: 50px;
+            border: 3px solid #00ffff;
+            border-radius: 25px;
+            position: relative
         }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 30px 90px rgba(0, 0, 0, .7);
-        }
-
-        .glass-strong {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .glow-text {
-            text-shadow: 0 0 30px var(--red-glow), 0 0 50px var(--blue-glow);
-        }
-
-        .btn-main {
-            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-main::before {
-            content: "";
+        .scroll-indicator::before {
+            content: '';
             position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, .1), transparent);
-            transform: translateX(-100%);
-            transition: transform .6s;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: #00ffff;
+            border-radius: 50%;
+            animation: scrollDot 2s infinite
         }
 
-        .btn-main:hover::before {
-            transform: translateX(100%);
+        @keyframes scrollDot {
+            0% {
+                top: 10px;
+                opacity: 1
+            }
+
+            100% {
+                top: 30px;
+                opacity: 0
+            }
         }
 
-        .btn-main:hover {
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 15px 40px var(--red-glow);
+        .event-card {
+            position: relative;
+            overflow: hidden
         }
 
-        .btn-main:active {
-            transform: translateY(-1px) scale(1.01);
+        .event-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, .3), transparent);
+            transition: left .6s
         }
 
-        .section-padding {
-            padding: 120px 20px;
+        .event-card:hover::after {
+            left: 100%
         }
 
-        /* Card Hover Effects */
-        .card-hover {
-            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
+        @media(max-width:768px) {
+            .stat-number {
+                font-size: 40px
+            }
+
+            .cyber-btn {
+                padding: 14px 30px;
+                font-size: 12px
+            }
+
+            .cyber-btn-outline {
+                padding: 12px 25px;
+                font-size: 11px
+            }
         }
 
-        .card-hover:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(244, 63, 94, .3);
+        .fade-in {
+            animation: fadeIn 1s ease-in
         }
 
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Mobile Menu Animation */
-        .menu-open {
-            animation: menuSlide .4s ease-out;
-        }
-
-        @keyframes menuSlide {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(30px)
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0)
             }
-        }
-
-        /* Responsive Typography */
-        @media (max-width: 640px) {
-            .section-padding {
-                padding: 80px 16px;
-            }
-        }
-
-        /* Stats Counter Animation */
-        .stat-number {
-            font-variant-numeric: tabular-nums;
-        }
-
-        /* Image Zoom Effect */
-        .img-zoom {
-            overflow: hidden;
-        }
-
-        .img-zoom img {
-            transition: transform .5s ease;
-        }
-
-        .img-zoom:hover img {
-            transform: scale(1.1);
-        }
-
-        /* Timeline Connector */
-        .timeline-line {
-            position: relative;
-        }
-
-        .timeline-line::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--red-glow), var(--blue-glow));
         }
     </style>
 </head>
 
 <body>
-    <!-- Background Layers -->
-    <div class="bg-layer"></div>
-    <div class="gradient-overlay"></div>
-    <div class="particles" id="particles"></div>
-
-    <!-- Content -->
+    <div class="bg-main"></div>
+    <div class="overlay-gradient"></div>
+    <div class="grid-bg"></div>
+    <div class="scan-lines"></div>
+    <div id="particles" style="position:fixed;inset:0;z-index:5;pointer-events:none"></div>
     <div class="content">
-
-        <!-- MOBILE MENU -->
-        <div id="mobileMenu" class="fixed inset-0 bg-black/95 backdrop-blur-2xl z-50 hidden">
-            <button id="closeMenu" class="absolute top-6 right-6 text-3xl hover:text-rose-500 transition">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-bold">
-                <a href="#home" class="menu-link hover:text-rose-500 transition">Home</a>
-                <a href="#about" class="menu-link hover:text-rose-500 transition">About</a>
-                <a href="#events" class="menu-link hover:text-rose-500 transition">Events</a>
-                <a href="#schedule" class="menu-link hover:text-rose-500 transition">Schedule</a>
-                <a href="#gallery" class="menu-link hover:text-rose-500 transition">Gallery</a>
-                <a href="#stats" class="menu-link hover:text-rose-500 transition">Stats</a>
-            </div>
+        <div id="mobileMenu"
+            class="fixed inset-0 bg-black/98 backdrop-blur-3xl z-50 hidden flex items-center justify-center">
+            <button id="closeMenu"
+                class="absolute top-8 right-8 text-4xl text-cyan-400 hover:text-pink-500 transition-colors"><i
+                    class="fa-solid fa-xmark"></i></button>
+            <nav class="flex flex-col items-center space-y-8 text-3xl font-bold orbitron">
+                <a href="#home" class="menu-link hover:text-cyan-400 transition-colors">HOME</a>
+                <a href="#about" class="menu-link hover:text-cyan-400 transition-colors">ABOUT</a>
+                <a href="#events" class="menu-link hover:text-cyan-400 transition-colors">EVENTS</a>
+                <a href="#schedule" class="menu-link hover:text-cyan-400 transition-colors">SCHEDULE</a>
+                <a href="#gallery" class="menu-link hover:text-cyan-400 transition-colors">GALLERY</a>
+                <a href="#stats" class="menu-link hover:text-cyan-400 transition-colors">STATS</a>
+            </nav>
         </div>
-
-        <!-- NAV -->
-        <nav class="fixed top-0 w-full z-40 p-3 md:p-4">
-            <div
-                class="max-w-7xl mx-auto glass rounded-2xl px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
-                <div class="text-xl md:text-2xl font-black italic">
-                    E<span class="text-rose-500">-</span>CELL
+        <nav class="fixed top-0 w-full z-40 p-4">
+            <div class="max-w-7xl mx-auto glass rounded-2xl px-6 py-4 flex justify-between items-center">
+                <div class="text-2xl md:text-3xl font-black orbitron"><span class="text-cyan-400">E</span>-<span
+                        class="text-pink-500">CELL</span></div>
+                <div
+                    class="hidden lg:flex items-center space-x-10 text-xs font-bold uppercase tracking-widest orbitron">
+                    <a href="#home" class="hover:text-cyan-400 transition-colors">Home</a>
+                    <a href="#about" class="hover:text-cyan-400 transition-colors">About</a>
+                    <a href="#events" class="hover:text-cyan-400 transition-colors">Events</a>
+                    <a href="#schedule" class="hover:text-cyan-400 transition-colors">Schedule</a>
+                    <a href="#gallery" class="hover:text-cyan-400 transition-colors">Gallery</a>
+                    <a href="#stats" class="hover:text-cyan-400 transition-colors">Stats</a>
                 </div>
-
-                <div class="hidden lg:flex space-x-8 text-xs font-bold uppercase tracking-[0.3em]">
-                    <a href="#home" class="hover:text-rose-500 transition">Home</a>
-                    <a href="#about" class="hover:text-rose-500 transition">About</a>
-                    <a href="#events" class="hover:text-rose-500 transition">Events</a>
-                    <a href="#schedule" class="hover:text-rose-500 transition">Schedule</a>
-                    <a href="#gallery" class="hover:text-rose-500 transition">Gallery</a>
-                    <a href="#stats" class="hover:text-rose-500 transition">Stats</a>
-                </div>
-
-                <button id="menuBtn" class="lg:hidden text-xl md:text-2xl hover:text-rose-500 transition">
-                    <i class="fa-solid fa-bars-staggered"></i>
-                </button>
+                <button id="menuBtn" class="lg:hidden text-2xl text-cyan-400 hover:text-pink-500 transition-colors"><i
+                        class="fa-solid fa-bars"></i></button>
             </div>
         </nav>
-
-        <!-- HERO -->
-        <section id="home"
-            class="min-h-screen flex flex-col items-center justify-center text-center pt-24 md:pt-32 px-4">
-            <div class="hero-content">
-                <h1 class="text-3xl sm:text-5xl md:text-7xl lg:text-9xl font-black glow-text mb-6 leading-tight">
-                    ENTREPRENEURSHIP<br class="hidden md:block" /> CELL
-                </h1>
-
-                <p class="uppercase tracking-[0.3em] md:tracking-[0.4em] opacity-60 mb-8 text-xs md:text-sm">
-                    [ YOUR COLLEGE NAME ]
-                </p>
-
-                <!-- SUMMIT CTA -->
-                <button
-                    class="glass px-6 md:px-8 py-3 md:py-4 font-bold tracking-widest text-xs md:text-sm mb-10 btn-main rounded-xl">
-                    ⚡ REGISTER FOR SUMMIT 2026 ⚡
-                </button>
-
-                <p class="italic text-base md:text-xl lg:text-2xl opacity-90 max-w-2xl mb-12 px-4">
-                    "Innovating Ideas. <span class="text-rose-500 font-semibold">Empowering</span> Entrepreneurs."
-                </p>
-
-                <div class="flex flex-col sm:flex-row gap-4 md:gap-6">
-                    <button
-                        class="btn-main bg-gradient-to-r from-rose-600 to-rose-500 px-10 md:px-12 py-3 md:py-4 rounded-full font-extrabold text-sm md:text-base">
-                        Register Now
-                    </button>
-                    <button
-                        class="btn-main glass px-10 md:px-12 py-3 md:py-4 rounded-full font-extrabold text-sm md:text-base">
-                        Explore Events
-                    </button>
+        <section id="home" class="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-32 pb-20">
+            <div class="space-y-8">
+                <h1 class="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black orbitron neon-text leading-tight">
+                    ENTREPRENEURSHIP<br />CELL</h1>
+                <p class="text-cyan-400 uppercase tracking-[0.5em] text-sm md:text-base opacity-80">[ YOUR COLLEGE NAME
+                    ]</p>
+                <div class="inline-block glass px-8 py-4 rounded-full">
+                    <p class="text-sm md:text-base font-bold text-cyan-400 tracking-widest">⚡ SUMMIT 2026 REGISTRATION
+                        OPEN ⚡</p>
+                </div>
+                <p class="text-lg md:text-2xl max-w-3xl mx-auto text-gray-300 italic">"Innovating Ideas. <span
+                        class="text-pink-500 font-bold">Empowering</span> Entrepreneurs."</p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center mt-12">
+                    <button class="cyber-btn text-sm md:text-base">REGISTER NOW</button>
+                    <button class="cyber-btn-outline text-sm md:text-base">EXPLORE EVENTS</button>
                 </div>
             </div>
-
-            <!-- Scroll Indicator -->
-            <div class="absolute bottom-10 animate-bounce">
-                <i class="fa-solid fa-chevron-down text-2xl opacity-50"></i>
-            </div>
+            <div class="absolute bottom-10 scroll-indicator"></div>
         </section>
-
-        <!-- STATS SECTION -->
-        <section id="stats" class="section-padding max-w-7xl mx-auto">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                <div class="glass-strong rounded-2xl p-6 md:p-8 text-center card-hover">
-                    <div class="text-3xl md:text-5xl font-black text-rose-500 mb-2 stat-number" data-target="500">0
+        <section id="stats" class="py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-6xl font-black text-center mb-16 orbitron neon-text">OUR IMPACT</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                    <div class="stat-box">
+                        <div class="stat-number orbitron" data-target="500">0</div>
+                        <p class="text-cyan-400 uppercase tracking-wider text-sm mt-2">MEMBERS</p>
                     </div>
-                    <p class="text-xs md:text-sm opacity-70 uppercase tracking-wider">Members</p>
-                </div>
-                <div class="glass-strong rounded-2xl p-6 md:p-8 text-center card-hover">
-                    <div class="text-3xl md:text-5xl font-black text-blue-500 mb-2 stat-number" data-target="50">0</div>
-                    <p class="text-xs md:text-sm opacity-70 uppercase tracking-wider">Events</p>
-                </div>
-                <div class="glass-strong rounded-2xl p-6 md:p-8 text-center card-hover">
-                    <div class="text-3xl md:text-5xl font-black text-purple-500 mb-2 stat-number" data-target="25">0
+                    <div class="stat-box">
+                        <div class="stat-number orbitron" data-target="50">0</div>
+                        <p class="text-cyan-400 uppercase tracking-wider text-sm mt-2">EVENTS</p>
                     </div>
-                    <p class="text-xs md:text-sm opacity-70 uppercase tracking-wider">Startups</p>
-                </div>
-                <div class="glass-strong rounded-2xl p-6 md:p-8 text-center card-hover">
-                    <div class="text-3xl md:text-5xl font-black text-amber-500 mb-2 stat-number" data-target="100">0
+                    <div class="stat-box">
+                        <div class="stat-number orbitron" data-target="25">0</div>
+                        <p class="text-cyan-400 uppercase tracking-wider text-sm mt-2">STARTUPS</p>
                     </div>
-                    <p class="text-xs md:text-sm opacity-70 uppercase tracking-wider">Mentors</p>
+                    <div class="stat-box">
+                        <div class="stat-number orbitron" data-target="100">0</div>
+                        <p class="text-cyan-400 uppercase tracking-wider text-sm mt-2">MENTORS</p>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <!-- ABOUT -->
-        <section id="about" class="section-padding max-w-7xl mx-auto">
-            <div class="glass rounded-3xl p-6 md:p-10 lg:p-14 grid md:grid-cols-2 gap-8 md:gap-14 items-center">
-                <div>
-                    <h2 class="text-3xl md:text-5xl lg:text-6xl font-black mb-6 leading-tight">
-                        Building the <span class="text-rose-600">Ecosystem</span>
+        <section id="about" class="py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <div class="glass-card rounded-3xl p-8 md:p-14 grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl md:text-6xl font-black mb-8 orbitron">Building the <span
+                                class="text-cyan-400">Ecosystem</span></h2>
+                        <p class="text-gray-300 leading-relaxed text-base md:text-lg mb-8">We create a launchpad where
+                            ideas transform into scalable ventures by connecting students with founders, investors, and
+                            industry mentors.</p>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-pink-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                    <i class="fa-solid fa-rocket text-xl"></i>
+                                </div><span class="text-lg">Mentorship
+                                    from Industry Leaders</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
+                                    <i class="fa-solid fa-dollar-sign text-xl"></i>
+                                </div><span class="text-lg">Funding
+                                    Opportunities</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center">
+                                    <i class="fa-solid fa-network-wired text-xl"></i>
+                                </div><span class="text-lg">Global
+                                    Networking</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-2xl overflow-hidden"><img
+                            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
+                            alt="Team"
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div>
+                </div>
+            </div>
+        </section>
+        <section id="events" class="py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-6xl font-black text-center mb-16 orbitron neon-text">FLAGSHIP EVENTS</h2>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="glass-card rounded-2xl p-8 event-card">
+                        <div class="text-6xl mb-6">🚀</div>
+                        <h3 class="text-2xl md:text-3xl font-black mb-4 orbitron text-cyan-400">STARTUP PITCH</h3>
+                        <p class="text-gray-400 mb-6 text-base">Pitch your groundbreaking ideas to top VCs and angel
+                            investors. Win funding up to $100K.</p><button class="cyber-btn w-full text-sm">REGISTER
+                            NOW</button>
+                    </div>
+                    <div class="glass-card rounded-2xl p-8 event-card">
+                        <div class="text-6xl mb-6">💻</div>
+                        <h3 class="text-2xl md:text-3xl font-black mb-4 orbitron text-pink-500">SAAS WORKSHOP</h3>
+                        <p class="text-gray-400 mb-6 text-base">Learn to build and scale SaaS products from industry
+                            experts. Hands-on coding sessions.</p><button class="cyber-btn w-full text-sm">JOIN
+                            WORKSHOP</button>
+                    </div>
+                    <div class="glass-card rounded-2xl p-8 event-card">
+                        <div class="text-6xl mb-6">🤝</div>
+                        <h3 class="text-2xl md:text-3xl font-black mb-4 orbitron text-purple-500">NETWORKING NIGHT</h3>
+                        <p class="text-gray-400 mb-6 text-base">Connect with successful founders, investors, and fellow
+                            entrepreneurs in an exclusive setting.</p><button class="cyber-btn w-full text-sm">GET
+                            INVITE</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="schedule" class="py-20 px-4">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-4xl md:text-6xl font-black text-center mb-16 orbitron neon-text">UPCOMING SCHEDULE</h2>
+                <div class="glass-card rounded-3xl p-8 md:p-12">
+                    <div class="space-y-8">
+                        <div
+                            class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-cyan-400/30 pb-6">
+                            <div class="flex items-center gap-6">
+                                <div
+                                    class="bg-gradient-to-br from-pink-500 to-purple-600 rounded-xl p-4 text-center min-w-[80px]">
+                                    <div class="text-3xl font-black orbitron">12</div>
+                                    <div class="text-sm uppercase tracking-wider">FEB</div>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl md:text-2xl font-bold mb-1">Startup Pitch Competition</h3>
+                                    <p class="text-cyan-400 text-sm">10:00 AM - Main Auditorium</p>
+                                </div>
+                            </div>
+                            <button class="cyber-btn-outline px-6 py-2 text-sm">REMIND ME</button>
+                        </div>
+                        <div
+                            class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-cyan-400/30 pb-6">
+                            <div class="flex items-center gap-6">
+                                <div
+                                    class="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl p-4 text-center min-w-[80px]">
+                                    <div class="text-3xl font-black orbitron">18</div>
+                                    <div class="text-sm uppercase tracking-wider">FEB</div>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl md:text-2xl font-bold mb-1">SaaS Development Workshop</h3>
+                                    <p class="text-cyan-400 text-sm">2:00 PM - Tech Lab 301</p>
+                                </div>
+                            </div>
+                            <button class="cyber-btn-outline px-6 py-2 text-sm">REMIND ME</button>
+                        </div>
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                            <div class="flex items-center gap-6">
+                                <div
+                                    class="bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl p-4 text-center min-w-[80px]">
+                                    <div class="text-3xl font-black orbitron">25</div>
+                                    <div class="text-sm uppercase tracking-wider">FEB</div>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl md:text-2xl font-bold mb-1">Exclusive Networking Night</h3>
+                                    <p class="text-cyan-400 text-sm">6:00 PM - Grand Conference Hall</p>
+                                </div>
+                            </div>
+                            <button class="cyber-btn-outline px-6 py-2 text-sm">REMIND ME</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="gallery" class="py-20 px-4">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="text-4xl md:text-6xl font-black text-center mb-16 orbitron neon-text">EVENT GALLERY</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="rounded-2xl overflow-hidden aspect-[3/4] border-2 border-cyan-400/30"><img
+                            src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=600&h=800&q=80"
+                            alt="Event 1"
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div>
+                    <div class="rounded-2xl overflow-hidden aspect-[3/4] border-2 border-pink-500/30"><img
+                            src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&h=800&q=80"
+                            alt="Event 2"
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div>
+                    <div class="rounded-2xl overflow-hidden aspect-[3/4] border-2 border-purple-500/30"><img
+                            src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&h=800&q=80"
+                            alt="Event 3"
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div>
+                    <div class="rounded-2xl overflow-hidden aspect-[3/4] border-2 border-cyan-400/30"><img
+                            src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&h=800&q=80"
+                            alt="Event 4"
+                            class="w-full h-full object-cover hover:scale-110 transition-transform duration-500"></div>
+                </div>
+            </div>
+        </section>
+        <section class="py-20 px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="glass-card rounded-3xl p-10 md:p-16 text-center">
+                    <h2 class="text-3xl md:text-5xl font-black mb-6 orbitron neon-text">READY TO START YOUR JOURNEY?
                     </h2>
-                    <p class="text-gray-300 leading-relaxed mb-6 text-sm md:text-base">
-                        We create a launchpad where ideas turn into scalable ventures by connecting students with
-                        founders,
-                        investors, and mentors.
-                    </p>
-                    <ul class="space-y-3 text-sm md:text-base">
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-rose-500"></i>
-                            <span>Mentorship from industry leaders</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-rose-500"></i>
-                            <span>Funding opportunities for startups</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-check text-rose-500"></i>
-                            <span>Networking with entrepreneurs</span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="img-zoom rounded-2xl overflow-hidden">
-                    <img class="rounded-2xl w-full h-full object-cover"
-                        src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80"
-                        alt="Team collaboration">
+                    <p class="text-gray-300 text-base md:text-lg mb-10 max-w-2xl mx-auto">Join our community of
+                        innovators and entrepreneurs. Transform your ideas into reality with our support.</p>
+                    <button class="cyber-btn text-base">BECOME A MEMBER</button>
                 </div>
             </div>
         </section>
-
-        <!-- EVENTS -->
-        <section id="events" class="section-padding max-w-7xl mx-auto text-center">
-            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black mb-12 md:mb-16">
-                FLAGSHIP EVENTS
-            </h2>
-
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                <div class="glass p-6 md:p-8 rounded-2xl card-hover">
-                    <div class="text-4xl md:text-5xl mb-4">🚀</div>
-                    <h3 class="text-xl md:text-2xl font-bold mb-3">Startup Pitch</h3>
-                    <p class="text-gray-400 mb-6 text-sm md:text-base">Pitch your ideas to top VCs and investors</p>
-                    <button
-                        class="btn-main w-full bg-gradient-to-r from-rose-600 to-rose-500 py-3 rounded-xl font-bold text-sm md:text-base">
-                        Register Now
-                    </button>
-                </div>
-
-                <div class="glass p-6 md:p-8 rounded-2xl card-hover">
-                    <div class="text-4xl md:text-5xl mb-4">💻</div>
-                    <h3 class="text-xl md:text-2xl font-bold mb-3">SaaS Workshop</h3>
-                    <p class="text-gray-400 mb-6 text-sm md:text-base">Learn to build scalable SaaS products</p>
-                    <button
-                        class="btn-main w-full bg-gradient-to-r from-blue-600 to-blue-500 py-3 rounded-xl font-bold text-sm md:text-base">
-                        Join Workshop
-                    </button>
-                </div>
-
-                <div class="glass p-6 md:p-8 rounded-2xl card-hover">
-                    <div class="text-4xl md:text-5xl mb-4">🤝</div>
-                    <h3 class="text-xl md:text-2xl font-bold mb-3">Networking Night</h3>
-                    <p class="text-gray-400 mb-6 text-sm md:text-base">Connect with founders and mentors</p>
-                    <button
-                        class="btn-main w-full bg-gradient-to-r from-amber-500 to-amber-400 py-3 rounded-xl font-bold text-sm md:text-base">
-                        Get Invite
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- SCHEDULE -->
-        <section id="schedule" class="section-padding max-w-5xl mx-auto">
-            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black text-center mb-12 md:mb-16">UPCOMING SCHEDULE</h2>
-
-            <div class="glass rounded-2xl p-6 md:p-8">
-                <div class="space-y-6">
-                    <div
-                        class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 border-b border-white/10 pb-4">
-                        <div class="flex items-center gap-4">
-                            <div class="bg-rose-500/20 rounded-xl px-4 py-2 text-center min-w-[70px]">
-                                <div class="text-xl md:text-2xl font-bold">12</div>
-                                <div class="text-xs opacity-70">FEB</div>
-                            </div>
-                            <div>
-                                <div class="font-bold text-base md:text-lg">Startup Pitch Competition</div>
-                                <div class="text-xs md:text-sm opacity-60">10:00 AM - Auditorium</div>
-                            </div>
-                        </div>
-                        <button class="btn-main glass px-6 py-2 rounded-lg text-xs md:text-sm">Remind Me</button>
-                    </div>
-
-                    <div
-                        class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 border-b border-white/10 pb-4">
-                        <div class="flex items-center gap-4">
-                            <div class="bg-blue-500/20 rounded-xl px-4 py-2 text-center min-w-[70px]">
-                                <div class="text-xl md:text-2xl font-bold">18</div>
-                                <div class="text-xs opacity-70">FEB</div>
-                            </div>
-                            <div>
-                                <div class="font-bold text-base md:text-lg">SaaS Development Workshop</div>
-                                <div class="text-xs md:text-sm opacity-60">2:00 PM - Lab 301</div>
-                            </div>
-                        </div>
-                        <button class="btn-main glass px-6 py-2 rounded-lg text-xs md:text-sm">Remind Me</button>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-                        <div class="flex items-center gap-4">
-                            <div class="bg-amber-500/20 rounded-xl px-4 py-2 text-center min-w-[70px]">
-                                <div class="text-xl md:text-2xl font-bold">25</div>
-                                <div class="text-xs opacity-70">FEB</div>
-                            </div>
-                            <div>
-                                <div class="font-bold text-base md:text-lg">Networking Night</div>
-                                <div class="text-xs md:text-sm opacity-60">6:00 PM - Conference Hall</div>
-                            </div>
-                        </div>
-                        <button class="btn-main glass px-6 py-2 rounded-lg text-xs md:text-sm">Remind Me</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- GALLERY -->
-        <section id="gallery" class="section-padding max-w-7xl mx-auto">
-            <h2 class="text-3xl md:text-5xl lg:text-6xl font-black text-center mb-12 md:mb-16">EVENT GALLERY</h2>
-
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-                <div class="img-zoom rounded-2xl overflow-hidden aspect-[3/4]">
-                    <img class="w-full h-full object-cover"
-                        src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=600&h=800&q=80"
-                        alt="Startup event">
-                </div>
-                <div class="img-zoom rounded-2xl overflow-hidden aspect-[3/4]">
-                    <img class="w-full h-full object-cover"
-                        src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&h=800&q=80"
-                        alt="Conference">
-                </div>
-                <div class="img-zoom rounded-2xl overflow-hidden aspect-[3/4]">
-                    <img class="w-full h-full object-cover"
-                        src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=600&h=800&q=80"
-                        alt="Teamwork">
-                </div>
-                <div class="img-zoom rounded-2xl overflow-hidden aspect-[3/4]">
-                    <img class="w-full h-full object-cover"
-                        src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&h=800&q=80"
-                        alt="Innovation">
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA SECTION -->
-        <section class="section-padding max-w-5xl mx-auto">
-            <div class="glass-strong rounded-3xl p-8 md:p-14 text-center">
-                <h2 class="text-3xl md:text-5xl font-black mb-6">Ready to Start Your Journey?</h2>
-                <p class="text-gray-300 mb-8 max-w-2xl mx-auto text-sm md:text-base">
-                    Join our community of innovators and entrepreneurs. Be part of something bigger.
-                </p>
-                <button
-                    class="btn-main bg-gradient-to-r from-rose-600 to-purple-600 px-12 py-4 rounded-full font-extrabold text-sm md:text-base">
-                    Become a Member
-                </button>
-            </div>
-        </section>
-
-        <!-- FOOTER -->
-        <footer class="glass mt-20 py-8 md:py-12">
+        <footer class="glass mt-10 py-12">
             <div class="max-w-7xl mx-auto px-4">
-                <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div class="grid md:grid-cols-3 gap-10 mb-10">
                     <div>
-                        <div class="text-2xl font-black italic mb-4">E<span class="text-rose-500">-</span>CELL</div>
-                        <p class="text-sm opacity-70">Empowering the next generation of entrepreneurs</p>
+                        <div class="text-3xl font-black orbitron mb-4"><span class="text-cyan-400">E</span>-<span
+                                class="text-pink-500">CELL</span></div>
+                        <p class="text-gray-400 text-sm">Empowering the next generation of entrepreneurs and innovators.
+                        </p>
                     </div>
                     <div>
-                        <h4 class="font-bold mb-4">Quick Links</h4>
-                        <div class="space-y-2 text-sm opacity-70">
-                            <div><a href="#about" class="hover:text-rose-500 transition">About Us</a></div>
-                            <div><a href="#events" class="hover:text-rose-500 transition">Events</a></div>
-                            <div><a href="#schedule" class="hover:text-rose-500 transition">Schedule</a></div>
+                        <h4 class="text-cyan-400 font-bold mb-4 uppercase tracking-wider">Quick Links</h4>
+                        <div class="space-y-2 text-sm">
+                            <div><a href="#about" class="text-gray-400 hover:text-cyan-400 transition">About Us</a>
+                            </div>
+                            <div><a href="#events" class="text-gray-400 hover:text-cyan-400 transition">Events</a></div>
+                            <div><a href="#schedule" class="text-gray-400 hover:text-cyan-400 transition">Schedule</a>
+                            </div>
+                            <div><a href="#gallery" class="text-gray-400 hover:text-cyan-400 transition">Gallery</a>
+                            </div>
                         </div>
                     </div>
                     <div>
-                        <h4 class="font-bold mb-4">Connect With Us</h4>
-                        <div class="flex gap-4 text-xl">
-                            <a href="#" class="hover:text-rose-500 transition"><i
-                                    class="fa-brands fa-instagram"></i></a>
-                            <a href="#" class="hover:text-blue-500 transition"><i class="fa-brands fa-linkedin"></i></a>
-                            <a href="#" class="hover:text-purple-500 transition"><i
-                                    class="fa-brands fa-twitter"></i></a>
-                            <a href="#" class="hover:text-amber-500 transition"><i class="fa-brands fa-youtube"></i></a>
-                        </div>
+                        <h4 class="text-cyan-400 font-bold mb-4 uppercase tracking-wider">Connect With Us</h4>
+                        <div class="flex gap-4 text-2xl"><a href="#"
+                                class="text-gray-400 hover:text-pink-500 transition"><i
+                                    class="fa-brands fa-instagram"></i></a><a href="#"
+                                class="text-gray-400 hover:text-cyan-400 transition"><i
+                                    class="fa-brands fa-linkedin"></i></a><a href="#"
+                                class="text-gray-400 hover:text-blue-500 transition"><i
+                                    class="fa-brands fa-twitter"></i></a><a href="#"
+                                class="text-gray-400 hover:text-purple-500 transition"><i
+                                    class="fa-brands fa-youtube"></i></a></div>
                     </div>
                 </div>
-                <div class="text-center text-xs md:text-sm opacity-60 pt-6 border-t border-white/10">
-                    © 2026 E-CELL | Crafted for Innovators & Entrepreneurs
-                </div>
+                <div class="border-t border-cyan-400/20 pt-8 text-center text-sm text-gray-500">© 2026 E-CELL | Crafted
+                    for Innovators & Entrepreneurs</div>
             </div>
         </footer>
-
     </div>
-
-    <!-- SCRIPTS -->
     <script>
-        // Particles Generator
+        // 1. INITIALIZE GSAP & PLUGINS
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 2. BACKGROUND PARTICLE SYSTEM
         function createParticles() {
             const container = document.getElementById('particles');
-            for (let i = 0; i < 40; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                container.appendChild(particle);
+            const count = 50;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                p.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(p);
             }
         }
         createParticles();
 
-        // GSAP Animations
-        gsap.registerPlugin(ScrollTrigger);
+        // 3. ENTRANCE ANIMATIONS (HERO SECTION)
+        const heroTl = gsap.timeline();
+        heroTl.from("#home h1", { y: 100, opacity: 0, duration: 1, ease: "power4.out" })
+            .from("#home p", { y: 50, opacity: 0, duration: 0.8, stagger: 0.2 }, "-=0.5")
+            .from("#home .cyber-btn, #home .cyber-btn-outline", { scale: 0.8, opacity: 0, duration: 0.5, stagger: 0.2 }, "-=0.3");
 
-        // Hero Animation
-        gsap.from(".hero-content > *", {
-            y: 100,
-            opacity: 0,
-            duration: 1.2,
-            stagger: 0.2,
-            ease: "power4.out"
-        });
-
-        // Section Animations
-        gsap.utils.toArray("section").forEach(section => {
-            gsap.from(section.querySelectorAll('.glass, .glass-strong, h2, .card-hover'), {
+        // 4. SCROLL-TRIGGERED REVEAL ANIMATIONS
+        const sections = ['#stats', '#about', '#events', '#schedule', '#gallery'];
+        sections.forEach(sec => {
+            gsap.from(`${sec} > div`, {
                 scrollTrigger: {
-                    trigger: section,
-                    start: "top 75%",
+                    trigger: sec,
+                    start: "top 80%",
                     toggleActions: "play none none reverse"
                 },
-                y: 80,
+                y: 50,
                 opacity: 0,
                 duration: 1,
-                stagger: 0.15,
                 ease: "power3.out"
             });
         });
 
-        // Stats Counter Animation
-        function animateCounter(element) {
-            const target = parseInt(element.getAttribute('data-target'));
+        // 5. STATS COUNTER LOGIC
+        function animateCounter(el) {
+            const target = parseInt(el.getAttribute('data-target'));
             const duration = 2000;
-            const increment = target / (duration / 16);
-            let current = 0;
+            const startTime = performance.now();
 
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    element.textContent = target + '+';
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current);
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const currentCount = Math.floor(progress * target);
+
+                el.textContent = currentCount + (progress === 1 ? '+' : '');
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
                 }
-            }, 16);
+            }
+            requestAnimationFrame(update);
         }
 
         ScrollTrigger.create({
             trigger: '#stats',
             start: 'top 75%',
             onEnter: () => {
-                document.querySelectorAll('.stat-number').forEach(animateCounter);
+                document.querySelectorAll('.stat-number').forEach(num => animateCounter(num));
             },
             once: true
         });
 
-        // Mobile Menu
+        // 6. MOBILE NAVIGATION LOGIC
         const menuBtn = document.getElementById("menuBtn");
         const closeMenu = document.getElementById("closeMenu");
         const mobileMenu = document.getElementById("mobileMenu");
+        const menuLinks = document.querySelectorAll(".menu-link");
 
-        menuBtn.onclick = () => {
+        const openMenu = () => {
             mobileMenu.classList.remove("hidden");
-            mobileMenu.classList.add("menu-open");
+            gsap.from("#mobileMenu nav a", { y: 30, opacity: 0, stagger: 0.1, duration: 0.4 });
         };
 
-        closeMenu.onclick = () => {
-            mobileMenu.classList.add("hidden");
-        };
+        const hideMenu = () => mobileMenu.classList.add("hidden");
 
-        document.querySelectorAll(".menu-link").forEach(link => {
-            link.onclick = () => mobileMenu.classList.add("hidden");
-        });
+        menuBtn.addEventListener('click', openMenu);
+        closeMenu.addEventListener('click', hideMenu);
+        menuLinks.forEach(link => link.addEventListener('click', hideMenu));
 
-        // Smooth scroll for navigation links
+        // 7. SMOOTH SCROLLING
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
+                const targetId = this.getAttribute('href');
+                const target = document.querySelector(targetId);
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    window.scrollTo({
+                        top: target.offsetTop - 80, // Offset for fixed header
+                        behavior: 'smooth'
                     });
                 }
             });
         });
 
-        // Navbar background on scroll
-        const nav = document.querySelector('nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                nav.querySelector('.glass').style.background = 'rgba(255, 255, 255, 0.8)';
-                nav.querySelector('.glass').style.backdropFilter = 'blur(20px)';
-            } else {
-                nav.querySelector('.glass').style.background = 'rgba(255, 255, 255, 0.04)';
-                nav.querySelector('.glass').style.backdropFilter = 'blur(24px)';
-            }
+        // 8. SIMULATED REGISTRATION SYSTEM ("Everything Working")
+        const actionButtons = document.querySelectorAll('.cyber-btn, .cyber-btn-outline');
+
+        actionButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const actionText = this.innerText;
+
+                // Avoid triggering on purely decorative or layout buttons
+                if (actionText.includes("REMIND") || actionText.includes("REGISTER") || actionText.includes("JOIN") || actionText.includes("MEMBER") || actionText.includes("INVITE")) {
+                    simulateRegistration(actionText);
+                }
+            });
         });
+
+        function simulateRegistration(type) {
+            // Create a custom neon notification
+            const notification = document.createElement('div');
+            notification.className = 'glass';
+            notification.style.cssText = `
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            padding: 20px 40px; border-radius: 15px; border: 2px solid #00ffff;
+            z-index: 9999; color: #fff; font-family: 'Orbitron', sans-serif;
+            box-shadow: 0 0 20px rgba(0,255,255,0.5); text-align: center;
+            animation: fadeInOut 3s forwards;
+        `;
+
+            notification.innerHTML = `
+            <div style="color: #00ffff; font-weight: bold; margin-bottom: 5px;">ACCESS GRANTED</div>
+            <div style="font-size: 12px; letter-spacing: 1px;">Request for [${type}] Received.</div>
+        `;
+
+            document.body.appendChild(notification);
+
+            // Simple animation style for the notification
+            const style = document.createElement('style');
+            style.innerHTML = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translate(-50%, -20px); }
+                15% { opacity: 1; transform: translate(-50%, 0); }
+                85% { opacity: 1; transform: translate(-50%, 0); }
+                100% { opacity: 0; transform: translate(-50%, -20px); }
+            }
+        `;
+            document.head.appendChild(style);
+
+            setTimeout(() => notification.remove(), 3000);
+        }
     </script>
 </body>
+
 </html>
