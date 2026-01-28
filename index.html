@@ -34,16 +34,21 @@
             position: fixed;
             inset: 0;
             background: url("background.png") center/cover no-repeat;
-            z-index: 0
+            z-index: 0;
+            animation: pulse 15s ease-in-out infinite;
         }
 
-        .overlay-gradient {
+        /* .overlay-gradient {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at 20% 20%, rgba(255, 0, 100, .3), transparent 40%), radial-gradient(circle at 80% 80%, rgba(0, 100, 255, .3), transparent 40%), radial-gradient(circle at 50% 50%, rgba(150, 0, 255, .2), transparent 50%);
-            animation: pulse 15s ease-in-out infinite;
+         background: linear-gradient(90deg,
+                        rgb(255, 0, 0) 0%,
+                        rgb(255, 0, 0) 45%,
+                        rgb(0, 21, 255) 55%,
+                        rgb(0, 21, 255) 100%);
+            animation: pulse 25ms ease-in-out infinite; 
             z-index: 1
-        }
+        } */
 
         @keyframes pulse {
 
@@ -84,16 +89,29 @@
             }
         }
 
+        .img {
+            position: center;
+            inset: 0;
+            z-index: 0;
+            opacity: 100%;
+            padding: 25px;
+            height: 100%;
+            top: 0%;
+            animation: imgMove 20s linear infinite;
+            width: auto;
+            border: 3px solid rgb(0, 255, 255);
+        }
+
         .content {
             position: relative;
-            z-index: 10
+            z-index: 10;
         }
 
         .glass {
-            background: rgba(10, 10, 30, .6);
+            background: rgba(11, 11, 23, 0.6);
             backdrop-filter: blur(20px) saturate(180%);
-            border: 2px solid rgba(0, 255, 255, .2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .1), 0 0 50px rgba(0, 255, 255, .1)
+            border: 2px solid rgba(0, 255, 255, 0.8);
+            box-shadow: 0 8px 12px rgba(63, 240, 146, 0.8), inset 0 1px 0 rgba(188, 7, 7, 0.1), 0 0 50px rgba(0, 255, 255, .1)
         }
 
         .glass-card {
@@ -129,85 +147,90 @@
             }
         }
 
-        .cyber-btn {
+        .cyber-btn,
+        .cyber-btn-outline {
             position: relative;
-            padding: 18px 40px;
-            font-weight: 800;
+            z-index: 100;
+        }
+
+        /* PRIMARY BUTTON */
+        .cyber-btn {
+            background: linear-gradient(90deg, #00ffaa, #00ffff, #7700ff);
+            background-size: 200% 200%;
+            color: #000000;
+            font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            background: linear-gradient(135deg, #ff0080, #7700ff);
+            letter-spacing: 2px;
+            padding: 20px 80px;
             border: none;
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
-            transition: all .4s cubic-bezier(.175, .885, .32, 1.275);
             cursor: pointer;
-            overflow: hidden
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: space-between;
         }
 
         .cyber-btn::before {
             content: '';
             position: absolute;
-            top: 0;
+            inset: 0;
             left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .4), transparent);
-            transition: left .5s
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
         }
 
         .cyber-btn:hover::before {
-            left: 100%
+            left: 100%;
         }
 
         .cyber-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 0, 128, .8), 0 0 60px rgba(119, 0, 255, .6)
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(255, 0, 128, .8);
+            background-position: 100% 0;
         }
 
+        /* OUTLINE BUTTON */
         .cyber-btn-outline {
-            background: transparent;
-            border: 3px solid #00ffff;
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
-            color: #00ffff;
-            transition: all .4s;
+            background: rgba(255, 255, 255, 0.95);
+            border: 3px solid #030303;
+            color: #000000;
             padding: 15px 35px;
-            font-weight: 800;
+            font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
-            position: relative;
-            overflow: hidden
+            overflow: hidden;
+            transition: all 0.4s ease;
+
         }
 
         .cyber-btn-outline::before {
             content: '';
             position: absolute;
-            top: 0;
+            inset: 0;
             left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, .3), transparent);
-            transition: left .5s
+            background: linear-gradient(90deg, transparent, rgba(6, 255, 255, 0.042), transparent);
+            transition: left 0.5s;
         }
 
         .cyber-btn-outline:hover::before {
-            left: 100%
+            left: 100%;
         }
 
         .cyber-btn-outline:hover {
-            background: rgba(0, 255, 255, .1);
-            box-shadow: 0 0 30px rgba(0, 255, 255, .8), inset 0 0 30px rgba(0, 255, 255, .3);
-            transform: translateY(-3px)
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(13, 0, 255, 0.8);
         }
 
         .stat-box {
-            background: rgba(0, 0, 0, .8);
-            border: 2px solid #00ffff;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff51;
             border-radius: 15px;
-            padding: 30px;
             text-align: center;
             position: relative;
             overflow: hidden;
-            transition: all .4s
+            transition: all .4s;
+            width: 100%;
+            top: 40%;
         }
 
         .stat-box::before {
@@ -364,6 +387,22 @@
                 transform: translateY(0)
             }
         }
+
+
+        @keyframes show {
+
+            0%,
+            49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
+
+            50%,
+            100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
     </style>
 </head>
 
@@ -386,48 +425,122 @@
                 <a href="#schedule" class="menu-link hover:text-cyan-400 transition-colors">SCHEDULE</a>
                 <a href="#gallery" class="menu-link hover:text-cyan-400 transition-colors">GALLERY</a>
                 <a href="#stats" class="menu-link hover:text-cyan-400 transition-colors">STATS</a>
+                <a href="#register" class="menu-link hover:text-cyan-400 transition-colors">REGISTER</a>
             </nav>
         </div>
-        <nav class="fixed top-0 w-full z-40 p-4">
-            <div class="max-w-7xl mx-auto glass rounded-2xl px-6 py-4 flex justify-between items-center">
-                <div class="text-2xl md:text-3xl font-black orbitron"><span class="text-cyan-400">E</span>-<span
-                        class="text-pink-500">CELL</span></div>
-                <div
-                    class="hidden lg:flex items-center space-x-10 text-xs font-bold uppercase tracking-widest orbitron">
-                    <a href="#home" class="hover:text-cyan-400 transition-colors">Home</a>
-                    <a href="#about" class="hover:text-cyan-400 transition-colors">About</a>
-                    <a href="#events" class="hover:text-cyan-400 transition-colors">Events</a>
-                    <a href="#schedule" class="hover:text-cyan-400 transition-colors">Schedule</a>
-                    <a href="#gallery" class="hover:text-cyan-400 transition-colors">Gallery</a>
-                    <a href="#stats" class="hover:text-cyan-400 transition-colors">Stats</a>
+        <nav class="fixed top-0 w-full z-50 px-4 pt-4">
+            <div class="max-w-7xl mx-auto glass rounded-2xl px-6 py-4 flex items-center justify-between">
+
+                <!-- LEFT : LOGO -->
+                <div class="flex items-center gap-3">
+                    <!-- LOGO IMAGE -->
+                    <img src="logo.jpeg" alt="E-Cell Logo"
+                        class="w-100 h-10 md:w-120 md:h-120 object-contain drop-shadow-lg" />
+
+                    <!-- LOGO TEXT -->
+                    <!-- <div class="text-xl md:text-2xl font-black orbitron tracking-wide">
+                        <span class="text-cyan-400">E</span>-<span class="text-pink-500">CELL</span>
+                    </div> -->
                 </div>
-                <button id="menuBtn" class="lg:hidden text-2xl text-cyan-400 hover:text-pink-500 transition-colors"><i
-                        class="fa-solid fa-bars"></i></button>
+
+                <!-- CENTER : DESKTOP LINKS -->
+                <div class="hidden lg:flex items-center gap-10 text-xs font-bold uppercase tracking-[0.25em] orbitron">
+
+                    <a href="#home" class="relative group hover:text-cyan-400 transition">
+                        Home
+                        <span
+                            class="absolute -bottom-2 left-0 w-0 h-[2px] bg-cyan-400 group-hover:w-full transition-all"></span>
+                    </a>
+
+                    <a href="#about" class="relative group hover:text-cyan-400 transition">
+                        About
+                        <span
+                            class="absolute -bottom-2 left-0 w-0 h-[2px] bg-cyan-400 group-hover:w-full transition-all"></span>
+                    </a>
+
+                    <a href="#events" class="relative group hover:text-pink-500 transition">
+                        Events
+                        <span
+                            class="absolute -bottom-2 left-0 w-0 h-[2px] bg-pink-500 group-hover:w-full transition-all"></span>
+                    </a>
+
+                    <a href="#schedule" class="relative group hover:text-cyan-400 transition">
+                        Schedule
+                        <span
+                            class="absolute -bottom-2 left-0 w-0 h-[2px] bg-cyan-400 group-hover:w-full transition-all"></span>
+                    </a>
+
+                    <a href="#gallery" class="relative group hover:text-cyan-400 transition">
+                        Gallery
+                        <span
+                            class="absolute -bottom-2 left-0 w-0 h-[2px] bg-cyan-400 group-hover:w-full transition-all"></span>
+                    </a>
+
+                    <a href="#stats" class="relative group hover:text-cyan-400 transition">
+                        Stats
+                        <span
+                            class="absolute -bottom-2 left-0 w-0 h-[2px] bg-cyan-400 group-hover:w-full transition-all"></span>
+                    </a>
+
+
+                </div>
+
+                <!-- RIGHT : CTA + MOBILE MENU -->
+                <div class="flex items-center gap-4">
+
+                    <!-- DESKTOP CTA -->
+                    <button class="hidden lg:block cyber-btn text-xs px-6 py-3">
+                        Register
+                    </button>
+
+                    <!-- MOBILE MENU BUTTON -->
+                    <button id="menuBtn"
+                        class="lg:hidden text-5xl text-cyan-400 hover:text-pink-200 transition-colors"><i
+                            class="fa-solid fa-bars"></i></button>
+                </div>
+
             </div>
         </nav>
-        <section id="home" class="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-32 pb-20">
-            <div class="space-y-8">
-                <h1 class="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black orbitron neon-text leading-tight">
-                    ENTREPRENEURSHIP<br />CELL</h1>
-                <p class="text-cyan-400 uppercase tracking-[0.5em] text-sm md:text-base opacity-80">[ YOUR COLLEGE NAME
-                    ]</p>
-                <div class="inline-block glass px-8 py-4 rounded-full">
-                    <p class="text-sm md:text-base font-bold text-cyan-400 tracking-widest">⚡ SUMMIT 2026 REGISTRATION
-                        OPEN ⚡</p>
-                </div>
-                <p class="text-lg md:text-2xl max-w-3xl mx-auto text-gray-300 italic">"Innovating Ideas. <span
-                        class="text-pink-500 font-bold">Empowering</span> Entrepreneurs."</p>
-                <div class="flex flex-col sm:flex-row gap-6 justify-center mt-12">
-                    <button class="cyber-btn text-sm md:text-base">REGISTER NOW</button>
-                    <button class="cyber-btn-outline text-sm md:text-base">EXPLORE EVENTS</button>
-                </div>
+
+        <section id="home"
+            class="min-h-screen flex flex-col items-center justify-center text-center px-4 pt-32 pb-20 relative z-20">
+
+            <div class="space-y-8 mb-12">
+                <h1 class="text-2xl sm:text-4xl md:text-4xl lg:text-4xl font-black orbitron neon-text leading-tight">
+                    START UP MELA <br />3.O
+                </h1>
+
+                <p class="text-cyan-400 uppercase tracking-[0.5em] text-sm md:text-base opacity-80">
+                    [ B.K Birla Night College – Commerce & Science, Kalyan ]
+                </p>
+
+                <p class="text-lg md:text-2xl max-w-3xl mx-auto text-gray-300 italic">
+                    "Vision to <span class="text-pink-500 font-bold">Ventures</span>"
+                </p>
             </div>
             <div class="absolute bottom-10 scroll-indicator"></div>
+
+            <div class="img">
+                <img src="Screenshot 2026-01-28 224122.png" alt="">
+
+            </div>
         </section>
         <section id="stats" class="py-20 px-4">
+            <!-- ✅ BUTTONS -->
+            <div class="relative z-50 flex flex-col sm:flex-row gap-6 justify-center mt-12 top20% mb-20">
+
+                <button class="cyber-btn action-btn text-sm md:text-base">
+                    REGISTER NOW
+                </button>
+
+                <button class="cyber-btn-outline action-btn text-sm md:text-base">
+                    EXPLORE EVENTS
+                </button>
+
+            </div>
             <div class="max-w-7xl mx-auto">
                 <h2 class="text-4xl md:text-6xl font-black text-center mb-16 orbitron neon-text">OUR IMPACT</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                <div class="grid grid-cols-4 md:grid-cols-4 gap-6 md:gap-8">
                     <div class="stat-box">
                         <div class="stat-number orbitron" data-target="500">0</div>
                         <p class="text-cyan-400 uppercase tracking-wider text-sm mt-2">MEMBERS</p>
@@ -719,7 +832,7 @@
 
         const openMenu = () => {
             mobileMenu.classList.remove("hidden");
-            gsap.from("#mobileMenu nav a", { y: 30, opacity: 0, stagger: 0.1, duration: 0.4 });
+            gsap.from("#mobileMenu nav a", { y: 10, opacity: 0, stagger: 0.1, duration: 0.2 });
         };
 
         const hideMenu = () => mobileMenu.classList.add("hidden");
@@ -744,26 +857,38 @@
         });
 
         // 8. SIMULATED REGISTRATION SYSTEM ("Everything Working")
-        const actionButtons = document.querySelectorAll('.cyber-btn, .cyber-btn-outline');
+
+        const actionButtons = document.querySelectorAll('.action-btn');
 
         actionButtons.forEach(btn => {
             btn.addEventListener('click', function () {
-                const actionText = this.innerText;
+                const actionText = this.innerText.trim();
 
-                // Avoid triggering on purely decorative or layout buttons
-                if (actionText.includes("REMIND") || actionText.includes("REGISTER") || actionText.includes("JOIN") || actionText.includes("MEMBER") || actionText.includes("INVITE")) {
+                if (
+                    actionText.includes("REGISTER") ||
+                    actionText.includes("EXPLORE") ||
+                    actionText.includes("JOIN") ||
+                    actionText.includes("MEMBER") ||
+                    actionText.includes("INVITE")
+                ) {
                     simulateRegistration(actionText);
                 }
             });
         });
 
         function simulateRegistration(type) {
+            alert(`Action triggered: ${type}`);
+        }
+
+
+
+        function simulateRegistration(type) {
             // Create a custom neon notification
             const notification = document.createElement('div');
             notification.className = 'glass';
             notification.style.cssText = `
-            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-            padding: 20px 40px; border-radius: 15px; border: 2px solid #00ffff;
+            position: fixed; top: 50px; left: 50%; transform: translateX(-50%);
+            padding: 0px 40px; border-radius: 15px; border: 2px solid #00ffff;
             z-index: 9999; color: #fff; font-family: 'Orbitron', sans-serif;
             box-shadow: 0 0 20px rgba(0,255,255,0.5); text-align: center;
             animation: fadeInOut 3s forwards;
